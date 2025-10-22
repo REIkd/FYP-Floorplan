@@ -1,0 +1,33 @@
+{
+  "dataset_name": "floorplan_dataset",
+  "version": "1.0",
+  "description": "建筑平面图数据集",
+  "classes": [
+    "door",
+    "window", 
+    "stair",
+    "elevator",
+    "room",
+    "wall",
+    "column",
+    "bathroom",
+    "kitchen",
+    "balcony",
+    "corridor"
+  ],
+  "image_formats": [".jpg", ".jpeg", ".png", ".bmp", ".gif", ".tiff"],
+  "annotation_format": "yolo",
+  "scale_ratios": [50, 100, 200, 500, 1000],
+  "image_requirements": {
+    "min_width": 100,
+    "min_height": 100,
+    "max_width": 10000,
+    "max_height": 10000
+  },
+  "annotation_requirements": {
+    "min_objects": 1,
+    "max_objects": 1000,
+    "min_confidence": 0.1,
+    "max_confidence": 1.0
+  }
+}

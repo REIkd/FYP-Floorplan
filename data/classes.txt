@@ -1,0 +1,11 @@
+door
+window
+stair
+elevator
+room
+wall
+column
+bathroom
+kitchen
+balcony
+corridor

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>建筑平面图分析系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .upload-area {
+            border: 2px dashed #007bff;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        .upload-area:hover {
+            border-color: #0056b3;
+            background-color: #e3f2fd;
+        }
+        .upload-area.dragover {
+            border-color: #28a745;
+            background-color: #d4edda;
+        }
+        .result-card {
+            border-left: 4px solid #007bff;
+            margin-bottom: 20px;
+        }
+        .statistics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .loading {
+            display: none;
+        }
+        .loading.show {
+            display: block;
+        }
+        .progress-container {
+            margin: 20px 0;
+        }
+        .detection-result {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- 导航栏 -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-building me-2"></i>
+                    建筑平面图分析系统
+                </a>
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="#" onclick="showDatasetValidation()">
+                        <i class="fas fa-database me-1"></i>数据集验证
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <!-- 主标题 -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h1 class="text-center text-primary">
+                        <i class="fas fa-home me-3"></i>
+                        智能平面图分析系统
+                    </h1>
+                    <p class="text-center text-muted">
+                        基于深度学习技术的建筑平面图识别和尺寸计算
+                    </p>
+                </div>
+            </div>
+
+            <!-- 上传区域 -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5><i class="fas fa-upload me-2"></i>上传平面图</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="upload-area" id="uploadArea">
+                                <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                                <h5>拖拽文件到此处或点击选择文件</h5>
+                                <p class="text-muted">支持格式: JPG, PNG, GIF, BMP (最大16MB)</p>
+                                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                                <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                                    <i class="fas fa-folder-open me-2"></i>选择文件
+                                </button>
+                            </div>
+                            
+                            <!-- 比例尺设置 -->
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label for="scaleRatio" class="form-label">比例尺设置</label>
+                                    <select class="form-select" id="scaleRatio">
+                                        <option value="50">1:50</option>
+                                        <option value="100" selected>1:100</option>
+                                        <option value="200">1:200</option>
+                                        <option value="500">1:500</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="customScale" class="form-label">自定义比例尺</label>
+                                    <input type="number" class="form-control" id="customScale" placeholder="例如: 150">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 加载状态 -->
+            <div class="loading" id="loadingSection">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="spinner-border text-primary mb-3" role="status">
+                            <span class="visually-hidden">分析中...</span>
+                        </div>
+                        <h5>正在分析平面图...</h5>
+                        <p class="text-muted">请稍候，这可能需要几分钟时间</p>
+                        <div class="progress-container">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                     role="progressbar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 结果显示 -->
+            <div id="resultsSection" style="display: none;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card result-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-line me-2"></i>分析结果</h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- 统计信息 -->
+                                <div class="statistics-grid" id="statisticsGrid">
+                                    <!-- 动态生成统计卡片 -->
+                                </div>
+                                
+                                <!-- 检测结果 -->
+                                <div class="mt-4">
+                                    <h6><i class="fas fa-search me-2"></i>检测到的对象</h6>
+                                    <div id="detectionResults">
+                                        <!-- 动态生成检测结果 -->
+                                    </div>
+                                </div>
+                                
+                                <!-- 尺寸计算 -->
+                                <div class="mt-4">
+                                    <h6><i class="fas fa-ruler me-2"></i>尺寸计算</h6>
+                                    <div id="sizeCalculations">
+                                        <!-- 动态生成尺寸信息 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 数据集验证模态框 -->
+            <div class="modal fade" id="datasetModal" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i class="fas fa-database me-2"></i>数据集验证
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="datasetPath" class="form-label">数据集路径</label>
+                                <input type="text" class="form-control" id="datasetPath" 
+                                       value="data/dataset" placeholder="输入数据集路径">
+                            </div>
+                            <div id="validationResults">
+                                <!-- 验证结果将在这里显示 -->
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" onclick="validateDataset()">
+                                <i class="fas fa-check me-2"></i>开始验证
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 全局变量
+        let currentFile = null;
+        let analysisResults = null;
+
+        // 文件上传处理
+        document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+        
+        // 拖拽上传
+        const uploadArea = document.getElementById('uploadArea');
+        uploadArea.addEventListener('dragover', handleDragOver);
+        uploadArea.addEventListener('dragleave', handleDragLeave);
+        uploadArea.addEventListener('drop', handleDrop);
+        uploadArea.addEventListener('click', () => document.getElementById('fileInput').click());
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                processFile(file);
+            }
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            uploadArea.classList.add('dragover');
+        }
+
+        function handleDragLeave(event) {
+            event.preventDefault();
+            uploadArea.classList.remove('dragover');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const file = event.dataTransfer.files[0];
+            if (file) {
+                processFile(file);
+            }
+        }
+
+        function processFile(file) {
+            // 验证文件类型
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('不支持的文件格式！请选择图片文件。');
+                return;
+            }
+
+            // 验证文件大小 (16MB)
+            if (file.size > 16 * 1024 * 1024) {
+                alert('文件过大！请选择小于16MB的文件。');
+                return;
+            }
+
+            currentFile = file;
+            uploadFile();
+        }
+
+        function uploadFile() {
+            const formData = new FormData();
+            formData.append('file', currentFile);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showMessage('文件上传成功！', 'success');
+                    analyzeFloorplan(data.filename);
+                } else {
+                    showMessage('上传失败: ' + data.error, 'error');
+                }
+            })
+            .catch(error => {
+                showMessage('上传错误: ' + error.message, 'error');
+            });
+        }
+
+        function analyzeFloorplan(filename) {
+            showLoading();
+            
+            const scaleRatio = document.getElementById('scaleRatio').value;
+            const customScale = document.getElementById('customScale').value;
+            const finalScale = customScale || scaleRatio;
+
+            fetch('/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    filename: filename,
+                    scale_ratio: parseInt(finalScale)
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                if (data.success) {
+                    analysisResults = data.results;
+                    displayResults(data.results);
+                } else {
+                    showMessage('分析失败: ' + data.error, 'error');
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showMessage('分析错误: ' + error.message, 'error');
+            });
+        }
+
+        function displayResults(results) {
+            document.getElementById('resultsSection').style.display = 'block';
+            
+            // 显示统计信息
+            displayStatistics(results.statistics);
+            
+            // 显示检测结果
+            displayDetectionResults(results.detection_results);
+            
+            // 显示尺寸计算
+            displaySizeCalculations(results.size_calculations);
+        }
+
+        function displayStatistics(statistics) {
+            const grid = document.getElementById('statisticsGrid');
+            grid.innerHTML = `
+                <div class="stat-card">
+                    <h4>${statistics.total_objects}</h4>
+                    <p>总对象数</p>
+                </div>
+                <div class="stat-card">
+                    <h4>${statistics.room_count}</h4>
+                    <p>房间数量</p>
+                </div>
+                <div class="stat-card">
+                    <h4>${statistics.total_area.toFixed(2)} m²</h4>
+                    <p>总面积</p>
+                </div>
+                <div class="stat-card">
+                    <h4>${statistics.average_room_size.toFixed(2)} m²</h4>
+                    <p>平均房间面积</p>
+                </div>
+            `;
+        }
+
+        function displayDetectionResults(detections) {
+            const container = document.getElementById('detectionResults');
+            container.innerHTML = detections.map(detection => `
+                <div class="detection-result">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>${detection.class || '未知对象'}</strong>
+                        </div>
+                        <div class="col-md-3">
+                            置信度: ${(detection.confidence * 100).toFixed(1)}%
+                        </div>
+                        <div class="col-md-3">
+                            位置: (${detection.x.toFixed(1)}, ${detection.y.toFixed(1)})
+                        </div>
+                        <div class="col-md-3">
+                            尺寸: ${detection.width.toFixed(1)} × ${detection.height.toFixed(1)}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displaySizeCalculations(calculations) {
+            const container = document.getElementById('sizeCalculations');
+            container.innerHTML = calculations.map(calc => `
+                <div class="detection-result">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>${calc.type || '对象'}</strong>
+                        </div>
+                        <div class="col-md-4">
+                            面积: ${calc.area ? calc.area.toFixed(2) + ' m²' : 'N/A'}
+                        </div>
+                        <div class="col-md-4">
+                            尺寸: ${calc.dimensions || 'N/A'}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showLoading() {
+            document.getElementById('loadingSection').classList.add('show');
+            document.getElementById('resultsSection').style.display = 'none';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingSection').classList.remove('show');
+        }
+
+        function showMessage(message, type) {
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            const alert = document.createElement('div');
+            alert.className = `alert ${alertClass} alert-dismissible fade show`;
+            alert.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const container = document.querySelector('.container');
+            container.insertBefore(alert, container.firstChild);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        function showDatasetValidation() {
+            const modal = new bootstrap.Modal(document.getElementById('datasetModal'));
+            modal.show();
+        }
+
+        function validateDataset() {
+            const datasetPath = document.getElementById('datasetPath').value;
+            
+            fetch('/validate_dataset', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    dataset_path: datasetPath
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    displayValidationResults(data.validation_results);
+                } else {
+                    showMessage('验证失败: ' + data.error, 'error');
+                }
+            })
+            .catch(error => {
+                showMessage('验证错误: ' + error.message, 'error');
+            });
+        }
+
+        function displayValidationResults(results) {
+            const container = document.getElementById('validationResults');
+            container.innerHTML = `
+                <div class="alert alert-info">
+                    <h6>验证结果</h6>
+                    <p>总文件数: ${results.total_files}</p>
+                    <p>有效文件数: ${results.valid_files}</p>
+                    <p>错误文件数: ${results.error_files}</p>
+                    <p>验证状态: ${results.valid ? '通过' : '失败'}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
