@@ -13,6 +13,10 @@ sys.path.append(str(Path(__file__).parent))
 
 def setup_logging():
     """设置日志"""
+    # 确保logs目录存在
+    logs_dir = Path('logs')
+    logs_dir.mkdir(exist_ok=True)
+    
     logging.basicConfig(
         level=logging.INFO,
         format='[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
@@ -38,14 +42,14 @@ def check_dependencies():
             missing_packages.append(package)
     
     if missing_packages:
-        print("❌ 缺少以下依赖包:")
+        print("缺少以下依赖包:")
         for package in missing_packages:
             print(f"  - {package}")
         print("\n请运行以下命令安装依赖:")
         print("pip install -r requirements.txt")
         return False
     
-    print("✅ 所有依赖包已安装")
+    print("所有依赖包已安装")
     return True
 
 def check_directories():
@@ -62,12 +66,12 @@ def check_directories():
             missing_dirs.append(dir_name)
     
     if missing_dirs:
-        print("❌ 缺少以下目录:")
+        print("缺少以下目录:")
         for dir_name in missing_dirs:
             print(f"  - {dir_name}")
         return False
     
-    print("✅ 目录结构完整")
+    print("目录结构完整")
     return True
 
 def check_models():
@@ -83,37 +87,37 @@ def check_models():
             missing_models.append(model_file)
     
     if missing_models:
-        print("⚠️  缺少以下模型文件:")
+        print("缺少以下模型文件:")
         for model_file in missing_models:
             print(f"  - {model_file}")
         print("系统将使用模拟检测模式")
     else:
-        print("✅ 模型文件完整")
+        print("模型文件完整")
     
     return True
 
 def run_tests():
     """运行测试"""
-    print("\n🧪 运行系统测试...")
+    print("\n运行系统测试...")
     
     try:
         from run_tests import run_all_tests
         success = run_all_tests()
         
         if success:
-            print("✅ 所有测试通过")
+            print("所有测试通过")
             return True
         else:
-            print("❌ 部分测试失败")
+            print("部分测试失败")
             return False
             
     except Exception as e:
-        print(f"❌ 测试运行失败: {str(e)}")
+        print(f"测试运行失败: {str(e)}")
         return False
 
 def start_application():
     """启动应用"""
-    print("\n🚀 启动建筑平面图分析系统...")
+    print("\n启动建筑平面图分析系统...")
     
     try:
         from app import app
@@ -124,9 +128,9 @@ def start_application():
         app.config.from_object(config)
         
         # 启动应用
-        print(f"🌐 应用将在 http://localhost:5000 启动")
-        print("📱 使用浏览器访问Web界面")
-        print("⏹️  按 Ctrl+C 停止应用")
+        print(f"应用将在 http://localhost:5000 启动")
+        print("使用浏览器访问Web界面")
+        print("按 Ctrl+C 停止应用")
         
         app.run(
             host='0.0.0.0',
@@ -135,22 +139,22 @@ def start_application():
         )
         
     except KeyboardInterrupt:
-        print("\n👋 应用已停止")
+        print("\n应用已停止")
     except Exception as e:
-        print(f"❌ 应用启动失败: {str(e)}")
+        print(f"应用启动失败: {str(e)}")
         return False
 
 def main():
     """主函数"""
     print("=" * 60)
-    print("🏗️  建筑平面图分析系统")
+    print("建筑平面图分析系统")
     print("=" * 60)
     
     # 设置日志
     setup_logging()
     
     # 检查系统
-    print("\n🔍 检查系统环境...")
+    print("\n检查系统环境...")
     
     if not check_dependencies():
         return 1

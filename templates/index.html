@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>建筑平面图分析系统</title>
+    <title>Floorplan Analysis System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -55,61 +55,76 @@
             padding: 15px;
             margin: 10px 0;
         }
+        .result-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .detection-overlay {
+            position: relative;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
     <div class="container-fluid">
-        <!-- 导航栏 -->
+        <!-- Navigation Bar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
             <div class="container">
                 <a class="navbar-brand" href="#">
                     <i class="fas fa-building me-2"></i>
-                    建筑平面图分析系统
+                    Floorplan Analysis System
                 </a>
                 <div class="navbar-nav ms-auto">
                     <a class="nav-link" href="#" onclick="showDatasetValidation()">
-                        <i class="fas fa-database me-1"></i>数据集验证
+                        <i class="fas fa-database me-1"></i>Dataset Validation
                     </a>
                 </div>
             </div>
         </nav>
 
         <div class="container">
-            <!-- 主标题 -->
+            <!-- Main Title -->
             <div class="row mb-4">
                 <div class="col-12">
                     <h1 class="text-center text-primary">
                         <i class="fas fa-home me-3"></i>
-                        智能平面图分析系统
+                        Intelligent Floorplan Analysis System
                     </h1>
                     <p class="text-center text-muted">
-                        基于深度学习技术的建筑平面图识别和尺寸计算
+                        Deep learning-based floorplan recognition and dimension calculation
                     </p>
                 </div>
             </div>
 
-            <!-- 上传区域 -->
+            <!-- Upload Area -->
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5><i class="fas fa-upload me-2"></i>上传平面图</h5>
+                            <h5><i class="fas fa-upload me-2"></i>Upload Floorplan</h5>
                         </div>
                         <div class="card-body">
                             <div class="upload-area" id="uploadArea">
                                 <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
-                                <h5>拖拽文件到此处或点击选择文件</h5>
-                                <p class="text-muted">支持格式: JPG, PNG, GIF, BMP (最大16MB)</p>
+                                <h5>Drag and drop files here or click to select</h5>
+                                <p class="text-muted">Supported formats: JPG, PNG, GIF, BMP (Max 16MB)</p>
                                 <input type="file" id="fileInput" accept="image/*" style="display: none;">
                                 <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
-                                    <i class="fas fa-folder-open me-2"></i>选择文件
+                                    <i class="fas fa-folder-open me-2"></i>Select File
                                 </button>
                             </div>
                             
-                            <!-- 比例尺设置 -->
+                            <!-- Scale Settings -->
                             <div class="row mt-3">
                                 <div class="col-md-6">
-                                    <label for="scaleRatio" class="form-label">比例尺设置</label>
+                                    <label for="scaleRatio" class="form-label">Scale Ratio</label>
                                     <select class="form-select" id="scaleRatio">
                                         <option value="50">1:50</option>
                                         <option value="100" selected>1:100</option>
@@ -118,8 +133,8 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="customScale" class="form-label">自定义比例尺</label>
-                                    <input type="number" class="form-control" id="customScale" placeholder="例如: 150">
+                                    <label for="customScale" class="form-label">Custom Scale</label>
+                                    <input type="number" class="form-control" id="customScale" placeholder="e.g., 150">
                                 </div>
                             </div>
                         </div>
@@ -127,15 +142,15 @@
                 </div>
             </div>
 
-            <!-- 加载状态 -->
+            <!-- Loading State -->
             <div class="loading" id="loadingSection">
                 <div class="card">
                     <div class="card-body text-center">
                         <div class="spinner-border text-primary mb-3" role="status">
-                            <span class="visually-hidden">分析中...</span>
+                            <span class="visually-hidden">Analyzing...</span>
                         </div>
-                        <h5>正在分析平面图...</h5>
-                        <p class="text-muted">请稍候，这可能需要几分钟时间</p>
+                        <h5>Analyzing floorplan...</h5>
+                        <p class="text-muted">Please wait, this may take a few minutes</p>
                         <div class="progress-container">
                             <div class="progress">
                                 <div class="progress-bar progress-bar-striped progress-bar-animated" 
@@ -146,33 +161,41 @@
                 </div>
             </div>
 
-            <!-- 结果显示 -->
+            <!-- Results Display -->
             <div id="resultsSection" style="display: none;">
                 <div class="row">
                     <div class="col-12">
                         <div class="card result-card">
                             <div class="card-header">
-                                <h5><i class="fas fa-chart-line me-2"></i>分析结果</h5>
+                                <h5><i class="fas fa-chart-line me-2"></i>Analysis Results</h5>
                             </div>
                             <div class="card-body">
-                                <!-- 统计信息 -->
-                                <div class="statistics-grid" id="statisticsGrid">
-                                    <!-- 动态生成统计卡片 -->
-                                </div>
-                                
-                                <!-- 检测结果 -->
-                                <div class="mt-4">
-                                    <h6><i class="fas fa-search me-2"></i>检测到的对象</h6>
-                                    <div id="detectionResults">
-                                        <!-- 动态生成检测结果 -->
+                                <!-- Analysis Image with Detection Boxes -->
+                                <div class="image-container">
+                                    <h6><i class="fas fa-image me-2"></i>Analysis Image with Detection Boxes</h6>
+                                    <div class="detection-overlay">
+                                        <img id="resultImage" class="result-image" src="" alt="Analysis Result">
                                     </div>
                                 </div>
                                 
-                                <!-- 尺寸计算 -->
+                                <!-- Statistics -->
+                                <div class="statistics-grid" id="statisticsGrid">
+                                    <!-- Dynamically generated statistics cards -->
+                                </div>
+                                
+                                <!-- Detection Results -->
                                 <div class="mt-4">
-                                    <h6><i class="fas fa-ruler me-2"></i>尺寸计算</h6>
+                                    <h6><i class="fas fa-search me-2"></i>Detected Objects</h6>
+                                    <div id="detectionResults">
+                                        <!-- Dynamically generated detection results -->
+                                    </div>
+                                </div>
+                                
+                                <!-- Size Calculations -->
+                                <div class="mt-4">
+                                    <h6><i class="fas fa-ruler me-2"></i>Size Calculations</h6>
                                     <div id="sizeCalculations">
-                                        <!-- 动态生成尺寸信息 -->
+                                        <!-- Dynamically generated size information -->
                                     </div>
                                 </div>
                             </div>
@@ -181,30 +204,30 @@
                 </div>
             </div>
 
-            <!-- 数据集验证模态框 -->
+            <!-- Dataset Validation Modal -->
             <div class="modal fade" id="datasetModal" tabindex="-1">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
-                                <i class="fas fa-database me-2"></i>数据集验证
+                                <i class="fas fa-database me-2"></i>Dataset Validation
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="datasetPath" class="form-label">数据集路径</label>
+                                <label for="datasetPath" class="form-label">Dataset Path</label>
                                 <input type="text" class="form-control" id="datasetPath" 
-                                       value="data/dataset" placeholder="输入数据集路径">
+                                       value="data/dataset" placeholder="Enter dataset path">
                             </div>
                             <div id="validationResults">
-                                <!-- 验证结果将在这里显示 -->
+                                <!-- Validation results will be displayed here -->
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" onclick="validateDataset()">
-                                <i class="fas fa-check me-2"></i>开始验证
+                                <i class="fas fa-check me-2"></i>Start Validation
                             </button>
                         </div>
                     </div>
@@ -215,14 +238,14 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // 全局变量
+        // Global variables
         let currentFile = null;
         let analysisResults = null;
 
-        // 文件上传处理
+        // File upload handling
         document.getElementById('fileInput').addEventListener('change', handleFileSelect);
         
-        // 拖拽上传
+        // Drag and drop upload
         const uploadArea = document.getElementById('uploadArea');
         uploadArea.addEventListener('dragover', handleDragOver);
         uploadArea.addEventListener('dragleave', handleDragLeave);
@@ -256,16 +279,16 @@
         }
 
         function processFile(file) {
-            // 验证文件类型
+            // Validate file type
             const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp'];
             if (!allowedTypes.includes(file.type)) {
-                alert('不支持的文件格式！请选择图片文件。');
+                alert('Unsupported file format! Please select an image file.');
                 return;
             }
 
-            // 验证文件大小 (16MB)
+            // Validate file size (16MB)
             if (file.size > 16 * 1024 * 1024) {
-                alert('文件过大！请选择小于16MB的文件。');
+                alert('File too large! Please select a file smaller than 16MB.');
                 return;
             }
 
@@ -284,14 +307,14 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    showMessage('文件上传成功！', 'success');
+                    showMessage('File uploaded successfully!', 'success');
                     analyzeFloorplan(data.filename);
                 } else {
-                    showMessage('上传失败: ' + data.error, 'error');
+                    showMessage('Upload failed: ' + data.error, 'error');
                 }
             })
             .catch(error => {
-                showMessage('上传错误: ' + error.message, 'error');
+                showMessage('Upload error: ' + error.message, 'error');
             });
         }
 
@@ -319,26 +342,44 @@
                     analysisResults = data.results;
                     displayResults(data.results);
                 } else {
-                    showMessage('分析失败: ' + data.error, 'error');
+                    showMessage('Analysis failed: ' + data.error, 'error');
                 }
             })
             .catch(error => {
                 hideLoading();
-                showMessage('分析错误: ' + error.message, 'error');
+                showMessage('Analysis error: ' + error.message, 'error');
             });
         }
 
         function displayResults(results) {
             document.getElementById('resultsSection').style.display = 'block';
             
-            // 显示统计信息
+            // Display analysis image with detection boxes
+            displayAnalysisImage(results);
+            
+            // Display statistics
             displayStatistics(results.statistics);
             
-            // 显示检测结果
+            // Display detection results
             displayDetectionResults(results.detection_results);
             
-            // 显示尺寸计算
+            // Display size calculations
             displaySizeCalculations(results.size_calculations);
+        }
+
+        function displayAnalysisImage(results) {
+            const resultImage = document.getElementById('resultImage');
+            if (results.analysis_image) {
+                resultImage.src = results.analysis_image;
+                resultImage.style.display = 'block';
+            } else {
+                // If no analysis image is provided, show the original uploaded image
+                const filename = results.filename;
+                if (filename) {
+                    resultImage.src = `/uploads/${filename}`;
+                    resultImage.style.display = 'block';
+                }
+            }
         }
 
         function displayStatistics(statistics) {
@@ -346,19 +387,19 @@
             grid.innerHTML = `
                 <div class="stat-card">
                     <h4>${statistics.total_objects}</h4>
-                    <p>总对象数</p>
+                    <p>Total Objects</p>
                 </div>
                 <div class="stat-card">
                     <h4>${statistics.room_count}</h4>
-                    <p>房间数量</p>
+                    <p>Room Count</p>
                 </div>
                 <div class="stat-card">
                     <h4>${statistics.total_area.toFixed(2)} m²</h4>
-                    <p>总面积</p>
+                    <p>Total Area</p>
                 </div>
                 <div class="stat-card">
                     <h4>${statistics.average_room_size.toFixed(2)} m²</h4>
-                    <p>平均房间面积</p>
+                    <p>Average Room Size</p>
                 </div>
             `;
         }
@@ -369,16 +410,16 @@
                 <div class="detection-result">
                     <div class="row">
                         <div class="col-md-3">
-                            <strong>${detection.class || '未知对象'}</strong>
+                            <strong>${detection.class || 'Unknown Object'}</strong>
                         </div>
                         <div class="col-md-3">
-                            置信度: ${(detection.confidence * 100).toFixed(1)}%
+                            Confidence: ${(detection.confidence * 100).toFixed(1)}%
                         </div>
                         <div class="col-md-3">
-                            位置: (${detection.x.toFixed(1)}, ${detection.y.toFixed(1)})
+                            Position: (${detection.x.toFixed(1)}, ${detection.y.toFixed(1)})
                         </div>
                         <div class="col-md-3">
-                            尺寸: ${detection.width.toFixed(1)} × ${detection.height.toFixed(1)}
+                            Size: ${detection.width.toFixed(1)} × ${detection.height.toFixed(1)}
                         </div>
                     </div>
                 </div>
@@ -391,13 +432,13 @@
                 <div class="detection-result">
                     <div class="row">
                         <div class="col-md-4">
-                            <strong>${calc.type || '对象'}</strong>
+                            <strong>${calc.type || 'Object'}</strong>
                         </div>
                         <div class="col-md-4">
-                            面积: ${calc.area ? calc.area.toFixed(2) + ' m²' : 'N/A'}
+                            Area: ${calc.area ? calc.area.toFixed(2) + ' m²' : 'N/A'}
                         </div>
                         <div class="col-md-4">
-                            尺寸: ${calc.dimensions || 'N/A'}
+                            Dimensions: ${calc.dimensions || 'N/A'}
                         </div>
                     </div>
                 </div>
@@ -464,11 +505,11 @@
             const container = document.getElementById('validationResults');
             container.innerHTML = `
                 <div class="alert alert-info">
-                    <h6>验证结果</h6>
-                    <p>总文件数: ${results.total_files}</p>
-                    <p>有效文件数: ${results.valid_files}</p>
-                    <p>错误文件数: ${results.error_files}</p>
-                    <p>验证状态: ${results.valid ? '通过' : '失败'}</p>
+                    <h6>Validation Results</h6>
+                    <p>Total Files: ${results.total_files}</p>
+                    <p>Valid Files: ${results.valid_files}</p>
+                    <p>Error Files: ${results.error_files}</p>
+                    <p>Validation Status: ${results.valid ? 'Passed' : 'Failed'}</p>
                 </div>
             `;
         }

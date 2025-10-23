@@ -1,0 +1,171 @@
+{
+  "filename": "20251023_101411_Cat7_3_jpg.rf.c3b0da2fbf7d0b015d6e19e809058073.jpg",
+  "scale_ratio": 100,
+  "detection_results": [
+    {
+      "class": "room",
+      "class_id": 4,
+      "confidence": 0.92,
+      "bbox": [
+        128.0,
+        192.0,
+        256.0,
+        320.0
+      ],
+      "x": 128.0,
+      "y": 192.0,
+      "width": 256.0,
+      "height": 320.0,
+      "area": 81920.0
+    },
+    {
+      "class": "door",
+      "class_id": 0,
+      "confidence": 0.85,
+      "bbox": [
+        64.0,
+        128.0,
+        32.0,
+        64.0
+      ],
+      "x": 64.0,
+      "y": 128.0,
+      "width": 32.0,
+      "height": 64.0,
+      "area": 2048.0
+    },
+    {
+      "class": "stair",
+      "class_id": 1,
+      "confidence": 0.78,
+      "bbox": [
+        192.0,
+        96.0,
+        51.2,
+        38.4
+      ],
+      "x": 192.0,
+      "y": 96.0,
+      "width": 51.2,
+      "height": 38.4,
+      "area": 1966.08
+    },
+    {
+      "class": "stair",
+      "class_id": 2,
+      "confidence": 0.73,
+      "bbox": [
+        384.0,
+        256.0,
+        96.0,
+        128.0
+      ],
+      "x": 384.0,
+      "y": 256.0,
+      "width": 96.0,
+      "height": 128.0,
+      "area": 12288.0
+    }
+  ],
+  "size_calculations": [
+    {
+      "type": "room",
+      "class_id": 4,
+      "confidence": 0.92,
+      "pixel_dimensions": {
+        "width": 256.0,
+        "height": 320.0,
+        "area": 81920.0
+      },
+      "real_dimensions": {
+        "width": 256.0,
+        "height": 320.0,
+        "area": 81920.0,
+        "perimeter": 1152.0,
+        "diagonal": 409.7999511957023
+      },
+      "scale_ratio": 100,
+      "units": "meters",
+      "room_metrics": {
+        "usable_area": 81920.0,
+        "aspect_ratio": 0.8,
+        "room_type": "超大房间",
+        "capacity_estimate": 40960
+      }
+    },
+    {
+      "type": "door",
+      "class_id": 0,
+      "confidence": 0.85,
+      "pixel_dimensions": {
+        "width": 32.0,
+        "height": 64.0,
+        "area": 2048.0
+      },
+      "real_dimensions": {
+        "width": 32.0,
+        "height": 64.0,
+        "area": 2048.0,
+        "perimeter": 192.0,
+        "diagonal": 71.55417527999327
+      },
+      "scale_ratio": 100,
+      "units": "meters",
+      "door_metrics": {
+        "width_category": "宽门",
+        "height_category": "高门",
+        "accessibility_compliant": true
+      }
+    },
+    {
+      "type": "stair",
+      "class_id": 1,
+      "confidence": 0.78,
+      "pixel_dimensions": {
+        "width": 51.2,
+        "height": 38.4,
+        "area": 1966.08
+      },
+      "real_dimensions": {
+        "width": 51.2,
+        "height": 38.4,
+        "area": 1966.0800000000002,
+        "perimeter": 179.2,
+        "diagonal": 64.0
+      },
+      "scale_ratio": 100,
+      "units": "meters"
+    },
+    {
+      "type": "stair",
+      "class_id": 2,
+      "confidence": 0.73,
+      "pixel_dimensions": {
+        "width": 96.0,
+        "height": 128.0,
+        "area": 12288.0
+      },
+      "real_dimensions": {
+        "width": 96.0,
+        "height": 128.0,
+        "area": 12287.999999999998,
+        "perimeter": 448.0,
+        "diagonal": 160.0
+      },
+      "scale_ratio": 100,
+      "units": "meters"
+    }
+  ],
+  "statistics": {
+    "total_objects": 4,
+    "object_counts": {
+      "room": 1,
+      "door": 1,
+      "stair": 2
+    },
+    "total_area": 0,
+    "room_count": 1,
+    "average_room_size": 0.0
+  },
+  "timestamp": "2025-10-23T10:14:11.575141"
+}

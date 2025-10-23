@@ -1,150 +1,150 @@
-# 建筑平面图分析系统 - 安装指南
+# Floorplan Analysis System - Installation Guide
 
-## 系统要求
+## System Requirements
 
-- Python 3.8 或更高版本
-- 8GB RAM (推荐 16GB)
-- 2GB 可用磁盘空间
-- 支持的操作系统: Windows, macOS, Linux
+- Python 3.8 or higher
+- 8GB RAM (16GB recommended)
+- 2GB available disk space
+- Supported operating systems: Windows, macOS, Linux
 
-## 安装步骤
+## Installation Steps
 
-### 1. 克隆项目
+### 1. Clone Project
 ```bash
 git clone <repository-url>
 cd FYP-Floorplan
 ```
 
-### 2. 创建虚拟环境 (推荐)
+### 2. Create Virtual Environment (Recommended)
 ```bash
-# 创建虚拟环境
+# Create virtual environment
 python -m venv venv
 
-# 激活虚拟环境
+# Activate virtual environment
 # Windows:
 venv\Scripts\activate
 # macOS/Linux:
 source venv/bin/activate
 ```
 
-### 3. 安装依赖
+### 3. Install Dependencies
 ```bash
-# 安装所有依赖包
+# Install all dependencies
 pip install -r requirements.txt
 
-# 或者手动安装主要依赖
+# Or manually install main dependencies
 pip install torch torchvision opencv-python numpy pillow matplotlib flask flask-cors
 ```
 
-### 4. 验证安装
+### 4. Verify Installation
 ```bash
-# 检查依赖是否正确安装
+# Check if dependencies are correctly installed
 python start.py --test
 
-# 运行演示
+# Run demonstration
 python demo.py
 ```
 
-## 快速开始
+## Quick Start
 
-### 1. 启动系统
+### 1. Start System
 ```bash
 python start.py
 ```
 
-### 2. 访问Web界面
-打开浏览器访问: http://localhost:5000
+### 2. Access Web Interface
+Open browser and visit: http://localhost:5000
 
-### 3. 上传平面图
-- 点击上传区域或拖拽图片文件
-- 设置比例尺 (默认1:100)
-- 点击分析按钮
+### 3. Upload Floorplan
+- Click upload area or drag and drop image files
+- Set scale ratio (default 1:100)
+- Click analyze button
 
-### 4. 查看结果
-- 检测到的对象列表
-- 尺寸计算结果
-- 统计信息
+### 4. View Results
+- List of detected objects
+- Dimension calculation results
+- Statistical information
 
-## 故障排除
+## Troubleshooting
 
-### 常见问题
+### Common Issues
 
-#### 1. 依赖安装失败
+#### 1. Dependency Installation Failed
 ```bash
-# 升级pip
+# Upgrade pip
 pip install --upgrade pip
 
-# 使用国内镜像源
+# Use domestic mirror source
 pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
 ```
 
-#### 2. 模型文件缺失
-系统会自动使用模拟检测模式，不影响基本功能演示。
+#### 2. Model Files Missing
+The system will automatically use simulation detection mode, which does not affect basic functionality demonstration.
 
-#### 3. 端口被占用
+#### 3. Port Already in Use
 ```bash
-# 修改端口
+# Change port
 python app.py --port 5001
 ```
 
-#### 4. 内存不足
-- 关闭其他应用程序
-- 使用较小的图像文件
-- 调整检测参数
+#### 4. Insufficient Memory
+- Close other applications
+- Use smaller image files
+- Adjust detection parameters
 
-### 性能优化
+### Performance Optimization
 
-#### 1. GPU加速 (可选)
+#### 1. GPU Acceleration (Optional)
 ```bash
-# 安装CUDA版本的PyTorch
+# Install CUDA version of PyTorch
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 ```
 
-#### 2. 内存优化
-- 使用较小的图像尺寸
-- 调整批处理大小
-- 启用内存映射
+#### 2. Memory Optimization
+- Use smaller image sizes
+- Adjust batch processing size
+- Enable memory mapping
 
-## 开发环境设置
+## Development Environment Setup
 
-### 1. 代码格式化
+### 1. Code Formatting
 ```bash
 pip install black flake8
 black .
 flake8 .
 ```
 
-### 2. 运行测试
+### 2. Run Tests
 ```bash
-# 运行所有测试
+# Run all tests
 python run_tests.py
 
-# 运行特定测试
+# Run specific tests
 python run_tests.py --module models
 python run_tests.py --module utils
 python run_tests.py --module integration
 ```
 
-### 3. 调试模式
+### 3. Debug Mode
 ```bash
-# 启用调试模式
+# Enable debug mode
 export FLASK_ENV=development
 python app.py
 ```
 
-## 部署指南
+## Deployment Guide
 
-### 1. 生产环境配置
+### 1. Production Environment Configuration
 ```bash
-# 设置环境变量
+# Set environment variables
 export FLASK_ENV=production
 export SECRET_KEY=your-secret-key
 
-# 启动应用
+# Start application
 python app.py
 ```
 
-### 2. Docker部署 (可选)
+### 2. Docker Deployment (Optional)
 ```dockerfile
 FROM python:3.9-slim
 
@@ -158,98 +158,98 @@ EXPOSE 5000
 CMD ["python", "app.py"]
 ```
 
-### 3. 云部署
-- 支持Heroku, AWS, Azure等云平台
-- 配置环境变量
-- 设置静态文件服务
+### 3. Cloud Deployment
+- Supports Heroku, AWS, Azure and other cloud platforms
+- Configure environment variables
+- Set up static file services
 
-## 使用示例
+## Usage Examples
 
-### 1. 基本使用
+### 1. Basic Usage
 ```python
 from models.floorplan_detector import FloorplanDetector
 from utils.image_processor import ImageProcessor
 from utils.scale_calculator import ScaleCalculator
 
-# 初始化组件
+# Initialize components
 detector = FloorplanDetector()
 processor = ImageProcessor()
 calculator = ScaleCalculator()
 
-# 处理图像
+# Process image
 image = cv2.imread('floorplan.jpg')
 processed = processor.preprocess_array(image)
 detections = detector.detect_objects(processed)
 calculations = calculator.calculate_sizes(detections, 100)
 ```
 
-### 2. 批量处理
+### 2. Batch Processing
 ```python
 import os
 from pathlib import Path
 
-# 批量处理文件夹中的图像
+# Batch process images in folder
 input_dir = Path('input_images')
 output_dir = Path('results')
 
 for image_file in input_dir.glob('*.jpg'):
-    # 处理每个图像
+    # Process each image
     image = cv2.imread(str(image_file))
     detections = detector.detect_objects(image)
     calculations = calculator.calculate_sizes(detections, 100)
     
-    # 保存结果
+    # Save results
     result_file = output_dir / f"{image_file.stem}_result.json"
     with open(result_file, 'w') as f:
         json.dump(calculations, f, indent=2)
 ```
 
-### 3. API使用
+### 3. API Usage
 ```python
 import requests
 
-# 上传图像进行分析
+# Upload image for analysis
 with open('floorplan.jpg', 'rb') as f:
     files = {'file': f}
     response = requests.post('http://localhost:5000/upload', files=files)
     
-# 获取分析结果
+# Get analysis results
 data = response.json()
 analysis_response = requests.post('http://localhost:5000/analyze', 
                                 json={'filename': data['filename'], 'scale_ratio': 100})
 ```
 
-## 技术支持
+## Technical Support
 
-### 1. 文档资源
-- 项目文档: README.md
-- API文档: 查看代码注释
-- 示例代码: demo.py
+### 1. Documentation Resources
+- Project documentation: README.md
+- API documentation: Check code comments
+- Example code: demo.py
 
-### 2. 问题报告
-- 检查日志文件: logs/app.log
-- 运行诊断: python start.py --test
-- 查看错误信息: 控制台输出
+### 2. Issue Reporting
+- Check log files: logs/app.log
+- Run diagnostics: python start.py --test
+- View error information: Console output
 
-### 3. 社区支持
-- GitHub Issues: 报告bug和功能请求
-- 技术讨论: 查看项目讨论区
-- 贡献代码: 提交Pull Request
+### 3. Community Support
+- GitHub Issues: Report bugs and feature requests
+- Technical discussions: Check project discussion area
+- Contribute code: Submit Pull Request
 
-## 更新日志
+## Changelog
 
 ### v1.0.0 (2024-10-23)
-- ✅ 初始版本发布
-- ✅ 基础功能实现
-- ✅ Web界面完成
-- ✅ 测试覆盖完成
+- ✅ Initial version release
+- ✅ Basic functionality implementation
+- ✅ Web interface completion
+- ✅ Test coverage completion
 
-### 未来计划
-- 🔄 模型优化
-- 🔄 性能提升
-- 🔄 功能扩展
-- 🔄 用户体验改进
+### Future Plans
+- 🔄 Model optimization
+- 🔄 Performance improvement
+- 🔄 Feature expansion
+- 🔄 User experience improvement
 
 ---
 
-**安装完成后，运行 `python start.py` 启动系统！**
+**After installation, run `python start.py` to start the system!**

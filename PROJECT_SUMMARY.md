@@ -1,221 +1,221 @@
-# 建筑平面图分析系统 - 项目总结
+# Floorplan Analysis System - Project Summary
 
-## 项目概述
+## Project Overview
 
-本项目是一个基于深度学习技术的建筑平面图分析系统，能够自动识别平面图中的建筑对象并计算实际尺寸。系统采用YOLO目标检测算法，结合图像处理和尺寸计算技术，为建筑师和工程师提供智能化的平面图分析工具。
+This project is a deep learning-based floorplan analysis system that automatically identifies architectural objects in floorplans and calculates actual dimensions. The system uses YOLO object detection algorithms combined with image processing and dimension calculation technologies to provide intelligent floorplan analysis tools for architects and engineers.
 
-## 核心功能
+## Core Features
 
-### 1. 对象识别 🎯
-- **深度学习检测**: 基于YOLOv8的平面图对象检测
-- **多类别识别**: 支持门、窗、楼梯、电梯、房间、墙、柱子等11种建筑对象
-- **高精度检测**: 置信度阈值可调，支持实时检测
-- **智能分类**: 基于对象特征的进一步分类和验证
+### 1. Object Recognition 🎯
+- **Deep Learning Detection**: YOLOv8-based floorplan object detection
+- **Multi-class Recognition**: Supports 11 types of architectural objects including doors, windows, stairs, elevators, rooms, walls, columns, etc.
+- **High Precision Detection**: Adjustable confidence thresholds with real-time detection support
+- **Intelligent Classification**: Further classification and validation based on object features
 
-### 2. 尺寸计算 📏
-- **比例尺处理**: 支持1:50到1:1000等多种比例尺
-- **精确计算**: 基于像素坐标计算实际尺寸
-- **单位转换**: 支持毫米、厘米、米、英尺、英寸等单位
-- **面积统计**: 自动计算房间面积和总面积
+### 2. Dimension Calculation 📏
+- **Scale Processing**: Supports multiple scale ratios from 1:50 to 1:1000
+- **Precise Calculation**: Calculate actual dimensions based on pixel coordinates
+- **Unit Conversion**: Supports millimeters, centimeters, meters, feet, inches, etc.
+- **Area Statistics**: Automatically calculate room areas and total area
 
-### 3. 图像处理 🖼️
-- **预处理**: 图像增强、去噪、对比度调整
-- **格式支持**: 支持JPG、PNG、BMP、GIF、TIFF等格式
-- **尺寸调整**: 自动调整到模型输入尺寸
-- **质量优化**: 智能图像质量提升
+### 3. Image Processing 🖼️
+- **Preprocessing**: Image enhancement, denoising, contrast adjustment
+- **Format Support**: Supports JPG, PNG, BMP, GIF, TIFF and other formats
+- **Size Adjustment**: Automatically adjust to model input size
+- **Quality Optimization**: Intelligent image quality improvement
 
-### 4. 数据验证 ✅
-- **数据集验证**: 完整的训练数据验证流程
-- **结果验证**: 检测结果和计算结果的合理性验证
-- **格式检查**: 支持YOLO、JSON、XML等标注格式
-- **质量保证**: 多层次的数据质量控制
+### 4. Data Validation ✅
+- **Dataset Validation**: Complete training data validation workflow
+- **Result Validation**: Reasonableness validation of detection results and calculations
+- **Format Checking**: Supports YOLO, JSON, XML annotation formats
+- **Quality Assurance**: Multi-level data quality control
 
-### 5. Web界面 🌐
-- **用户友好**: 直观的拖拽上传界面
-- **实时分析**: 即时的图像分析和结果显示
-- **交互式操作**: 支持比例尺设置和参数调整
-- **结果展示**: 详细的统计图表和检测结果
+### 5. Web Interface 🌐
+- **User-Friendly**: Intuitive drag-and-drop upload interface
+- **Real-time Analysis**: Instant image analysis and result display
+- **Interactive Operations**: Supports scale setting and parameter adjustment
+- **Result Display**: Detailed statistical charts and detection results
 
-## 技术架构
+## Technical Architecture
 
-### 后端技术栈
-- **深度学习**: PyTorch + YOLOv8
-- **Web框架**: Flask + Flask-CORS
-- **图像处理**: OpenCV + PIL
-- **数据处理**: NumPy + Pandas
-- **测试框架**: unittest
+### Backend Technology Stack
+- **Deep Learning**: PyTorch + YOLOv8
+- **Web Framework**: Flask + Flask-CORS
+- **Image Processing**: OpenCV + PIL
+- **Data Processing**: NumPy + Pandas
+- **Testing Framework**: unittest
 
-### 前端技术栈
-- **界面框架**: Bootstrap 5
-- **图标库**: Font Awesome
-- **交互**: JavaScript + AJAX
-- **样式**: CSS3 + 响应式设计
+### Frontend Technology Stack
+- **UI Framework**: Bootstrap 5
+- **Icon Library**: Font Awesome
+- **Interactions**: JavaScript + AJAX
+- **Styling**: CSS3 + Responsive Design
 
-### 系统架构
+### System Architecture
 ```
 FYP-Floorplan/
-├── app.py                 # Flask应用主入口
-├── models/                # 深度学习模型
+├── app.py                 # Flask Application Main Entry
+├── models/                # Deep Learning Models
 │   ├── floorplan_detector.py
 │   ├── yolo_detector.py
 │   └── object_classifier.py
-├── utils/                 # 工具模块
+├── utils/                 # Utility Modules
 │   ├── image_processor.py
 │   ├── scale_calculator.py
 │   ├── data_validator.py
 │   └── file_utils.py
-├── templates/            # Web模板
+├── templates/            # Web Templates
 │   └── index.html
-├── static/               # 静态资源
-├── tests/                # 测试模块
-├── data/                 # 数据集
-└── config.py            # 配置文件
+├── static/               # Static Resources
+├── tests/                # Test Modules
+├── data/                 # Dataset
+└── config.py            # Configuration File
 ```
 
-## 项目亮点
+## Project Highlights
 
-### 1. 完整的开发流程
-- ✅ 需求分析和系统设计
-- ✅ 模块化架构设计
-- ✅ 深度学习模型集成
-- ✅ 完整的测试覆盖
-- ✅ 用户界面开发
-- ✅ 部署和文档
+### 1. Complete Development Process
+- ✅ Requirements analysis and system design
+- ✅ Modular architecture design
+- ✅ Deep learning model integration
+- ✅ Complete test coverage
+- ✅ User interface development
+- ✅ Deployment and documentation
 
-### 2. 高质量代码
-- **模块化设计**: 清晰的代码结构和职责分离
-- **错误处理**: 完善的异常处理和错误恢复
-- **日志系统**: 详细的日志记录和调试信息
-- **配置管理**: 灵活的配置系统和环境适配
+### 2. High-Quality Code
+- **Modular Design**: Clear code structure and separation of responsibilities
+- **Error Handling**: Comprehensive exception handling and error recovery
+- **Logging System**: Detailed logging and debugging information
+- **Configuration Management**: Flexible configuration system and environment adaptation
 
-### 3. 全面的测试
-- **单元测试**: 每个模块的独立测试
-- **集成测试**: 完整流程的端到端测试
-- **性能测试**: 内存使用和处理时间测试
-- **错误处理测试**: 异常情况的处理验证
+### 3. Comprehensive Testing
+- **Unit Testing**: Independent testing for each module
+- **Integration Testing**: End-to-end testing of complete workflows
+- **Performance Testing**: Memory usage and processing time testing
+- **Error Handling Testing**: Validation of exception handling
 
-### 4. 用户友好
-- **直观界面**: 简洁易用的Web界面
-- **实时反馈**: 即时的处理状态和结果展示
-- **参数调整**: 灵活的比例尺和检测参数设置
-- **结果导出**: 支持多种格式的结果导出
+### 4. User-Friendly
+- **Intuitive Interface**: Simple and easy-to-use web interface
+- **Real-time Feedback**: Instant processing status and result display
+- **Parameter Adjustment**: Flexible scale and detection parameter settings
+- **Result Export**: Support for multiple format result exports
 
-## 使用方法
+## Usage Instructions
 
-### 1. 环境准备
+### 1. Environment Setup
 ```bash
-# 安装依赖
+# Install dependencies
 pip install -r requirements.txt
 
-# 检查系统
+# Check system
 python start.py --test
 ```
 
-### 2. 启动系统
+### 2. Start System
 ```bash
-# 启动Web应用
+# Start web application
 python start.py
 
-# 或直接运行Flask应用
+# Or run Flask application directly
 python app.py
 ```
 
-### 3. 使用演示
+### 3. Demo Usage
 ```bash
-# 运行功能演示
+# Run feature demonstration
 python demo.py
 
-# 运行测试套件
+# Run test suite
 python run_tests.py
 ```
 
-### 4. Web界面使用
-1. 访问 http://localhost:5000
-2. 上传平面图图像
-3. 设置比例尺参数
-4. 点击分析按钮
-5. 查看检测结果和尺寸计算
+### 4. Web Interface Usage
+1. Access http://localhost:5000
+2. Upload floorplan image
+3. Set scale parameters
+4. Click analyze button
+5. View detection results and dimension calculations
 
-## 技术特色
+## Technical Features
 
-### 1. 智能检测算法
-- **YOLO集成**: 基于最新的YOLOv8目标检测算法
-- **多尺度检测**: 支持不同尺寸的对象检测
-- **置信度过滤**: 可调节的检测阈值
-- **后处理优化**: 智能的检测结果优化
+### 1. Intelligent Detection Algorithm
+- **YOLO Integration**: Based on the latest YOLOv8 object detection algorithm
+- **Multi-scale Detection**: Supports object detection at different scales
+- **Confidence Filtering**: Adjustable detection thresholds
+- **Post-processing Optimization**: Intelligent detection result optimization
 
-### 2. 精确尺寸计算
-- **像素到实际尺寸**: 基于比例尺的精确转换
-- **多单位支持**: 支持多种国际单位
-- **面积计算**: 自动计算房间和对象面积
-- **周长计算**: 支持对象周长计算
+### 2. Precise Dimension Calculation
+- **Pixel to Actual Dimensions**: Precise conversion based on scale ratios
+- **Multi-unit Support**: Supports multiple international units
+- **Area Calculation**: Automatically calculate room and object areas
+- **Perimeter Calculation**: Supports object perimeter calculation
 
-### 3. 数据质量保证
-- **多层验证**: 数据集、检测结果、计算结果的全面验证
-- **格式检查**: 支持多种数据格式的验证
-- **合理性检查**: 基于建筑学常识的合理性验证
-- **错误报告**: 详细的错误信息和修复建议
+### 3. Data Quality Assurance
+- **Multi-level Validation**: Comprehensive validation of datasets, detection results, and calculations
+- **Format Checking**: Supports validation of multiple data formats
+- **Reasonableness Checking**: Validation based on architectural knowledge
+- **Error Reporting**: Detailed error information and repair suggestions
 
-### 4. 可扩展架构
-- **模块化设计**: 易于扩展和维护
-- **插件系统**: 支持新模型和算法的集成
-- **配置驱动**: 灵活的配置管理系统
-- **API接口**: 支持第三方系统集成
+### 4. Extensible Architecture
+- **Modular Design**: Easy to extend and maintain
+- **Plugin System**: Supports integration of new models and algorithms
+- **Configuration-driven**: Flexible configuration management system
+- **API Interface**: Supports third-party system integration
 
-## 项目成果
+## Project Achievements
 
-### 1. 学术价值
-- **技术创新**: 将深度学习应用于建筑平面图分析
-- **算法优化**: 针对建筑对象的检测算法优化
-- **精度提升**: 相比传统方法显著提升检测精度
-- **效率改进**: 自动化处理大幅提升工作效率
+### 1. Academic Value
+- **Technical Innovation**: Application of deep learning to floorplan analysis
+- **Algorithm Optimization**: Detection algorithm optimization for architectural objects
+- **Precision Improvement**: Significantly improved detection accuracy compared to traditional methods
+- **Efficiency Enhancement**: Automation greatly improves work efficiency
 
-### 2. 实用价值
-- **工程应用**: 可直接应用于实际工程项目
-- **教学工具**: 适合建筑和工程教育使用
-- **研究平台**: 为相关研究提供基础平台
-- **商业潜力**: 具备商业化应用的前景
+### 2. Practical Value
+- **Engineering Applications**: Can be directly applied to actual engineering projects
+- **Educational Tool**: Suitable for architectural and engineering education
+- **Research Platform**: Provides foundation platform for related research
+- **Commercial Potential**: Has prospects for commercialization
 
-### 3. 技术贡献
-- **开源项目**: 完整的开源实现
-- **文档完善**: 详细的技术文档和使用说明
-- **测试覆盖**: 全面的测试用例和验证
-- **社区友好**: 易于理解和贡献的代码结构
+### 3. Technical Contributions
+- **Open Source Project**: Complete open source implementation
+- **Comprehensive Documentation**: Detailed technical documentation and usage instructions
+- **Test Coverage**: Comprehensive test cases and validation
+- **Community Friendly**: Code structure that is easy to understand and contribute to
 
-## 未来发展方向
+## Future Development Directions
 
-### 1. 功能扩展
-- **3D分析**: 扩展到三维建筑模型分析
-- **更多对象**: 支持更多建筑对象类型
-- **智能标注**: 自动生成建筑标注
-- **批量处理**: 支持批量图像处理
+### 1. Feature Expansion
+- **3D Analysis**: Extend to three-dimensional building model analysis
+- **More Objects**: Support more architectural object types
+- **Intelligent Annotation**: Automatically generate architectural annotations
+- **Batch Processing**: Support batch image processing
 
-### 2. 技术优化
-- **模型优化**: 更轻量级的检测模型
-- **速度提升**: 实时处理能力优化
-- **精度提升**: 更高精度的检测算法
-- **云端部署**: 支持云端大规模部署
+### 2. Technical Optimization
+- **Model Optimization**: Lighter detection models
+- **Speed Enhancement**: Real-time processing capability optimization
+- **Precision Improvement**: Higher precision detection algorithms
+- **Cloud Deployment**: Support large-scale cloud deployment
 
-### 3. 应用拓展
-- **移动端**: 开发移动端应用
-- **API服务**: 提供RESTful API服务
-- **集成平台**: 与CAD软件集成
-- **云端服务**: 提供云端分析服务
+### 3. Application Expansion
+- **Mobile Applications**: Develop mobile applications
+- **API Services**: Provide RESTful API services
+- **Integration Platform**: Integrate with CAD software
+- **Cloud Services**: Provide cloud analysis services
 
-## 总结
+## Summary
 
-本项目成功实现了一个完整的建筑平面图分析系统，具备以下特点：
+This project successfully implements a complete floorplan analysis system with the following characteristics:
 
-1. **技术先进**: 采用最新的深度学习技术
-2. **功能完整**: 涵盖检测、计算、验证等完整流程
-3. **用户友好**: 直观的界面和操作体验
-4. **质量可靠**: 全面的测试和质量保证
-5. **可扩展性**: 良好的架构设计支持未来扩展
+1. **Advanced Technology**: Uses the latest deep learning technologies
+2. **Complete Functionality**: Covers complete workflows of detection, calculation, and validation
+3. **User-Friendly**: Intuitive interface and operation experience
+4. **Reliable Quality**: Comprehensive testing and quality assurance
+5. **Extensibility**: Good architectural design supports future expansion
 
-该系统不仅满足了项目的基本要求，还在技术实现、用户体验、代码质量等方面达到了较高标准，为建筑行业的数字化转型提供了有价值的工具和参考。
+The system not only meets the basic project requirements but also achieves high standards in technical implementation, user experience, and code quality, providing valuable tools and references for the digital transformation of the construction industry.
 
 ---
 
-**项目完成时间**: 2024年10月
-**技术栈**: Python, PyTorch, Flask, OpenCV, Bootstrap
-**项目状态**: 完成 ✅
+**Project Completion Time**: October 2024
+**Technology Stack**: Python, PyTorch, Flask, OpenCV, Bootstrap
+**Project Status**: Completed ✅
