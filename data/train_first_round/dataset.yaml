@@ -1,0 +1,33 @@
+# 第一轮训练配置文件
+# 数据集路径
+path: E:\Project\FYP-Floorplan\data\train_first_round
+train: splits/train.txt
+val: splits/val.txt
+
+# 类别定义
+names:
+  0: door
+  1: window
+  2: table
+  3: chair
+  4: bed
+  5: sofa
+  6: toilet
+  7: sink
+  8: bathtub
+  9: stove
+  10: refrigerator
+  11: wardrobe
+  12: tv
+  13: desk
+  14: washingmachine
+  15: loadbearing_wall
+  16: aircondition
+  17: cupboard
+
+nc: 18
+
+# 训练参数（第一轮：快速验证）
+epochs: 50
+batch: 8
+imgsz: 640

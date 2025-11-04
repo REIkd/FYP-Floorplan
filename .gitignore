@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 虚拟环境
+venv/
+env/
+ENV/
+.venv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints
+
+# 模型文件
+*.pth
+*.pt
+*.onnx
+*.h5
+*.pkl
+models/weights/
+runs/
+results/
+
+# 数据文件 (根据需要调整)
+# data/images/  # 如果数据太大不想上传
+data/labels_detection/
+data/labels_segmentation/
+
+# 日志
+logs/
+*.log
+tensorboard/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 临时文件
+temp/
+tmp/
+*.tmp
+
+# 输出结果
+output/
+predictions/
+visualizations/
+

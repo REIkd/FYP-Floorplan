@@ -1,0 +1,54 @@
+# YOLOv8 Object Detection Config - Furniture Symbol Recognition
+
+# Dataset paths
+path: ../data  # Dataset root directory
+train: splits/train.txt  # Training set image list
+val: splits/val.txt      # Validation set image list
+test: splits/test.txt    # Test set image list
+
+# Class definitions (adjust according to actual annotation classes)
+names:
+  0: door               # Door
+  1: window             # Window
+  2: table              # Table
+  3: chair              # Chair
+  4: bed                # Bed
+  5: sofa               # Sofa
+  6: toilet             # Toilet
+  7: sink               # Sink
+  8: bathtub            # Bathtub
+  9: stove              # Stove
+  10: refrigerator      # Refrigerator
+  11: wardrobe          # Wardrobe
+  12: tv                # TV
+  13: desk              # Desk
+  14: washingmachine    # Washing Machine
+  15: loadbearing_wall  # Load-bearing Wall
+  16: aircondition      # Air Conditioner
+  17: cupboard          # Cupboard
+
+# Number of classes
+nc: 18
+
+# Training parameters
+epochs: 100
+batch: 16
+imgsz: 640
+optimizer: AdamW
+lr0: 0.001
+weight_decay: 0.0005
+
+# Data augmentation
+hsv_h: 0.015
+hsv_s: 0.7
+hsv_v: 0.4
+degrees: 10.0
+translate: 0.1
+scale: 0.5
+shear: 0.0
+perspective: 0.0
+flipud: 0.0
+fliplr: 0.5
+mosaic: 1.0
+mixup: 0.0
+

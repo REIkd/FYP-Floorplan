@@ -1,0 +1,49 @@
+# Semantic Segmentation Config - Room Segmentation
+
+# Dataset
+data:
+  root: ../data
+  train_images: images/
+  train_masks: labels_segmentation/masks/
+  val_split: 0.2
+  img_size: [512, 512]
+
+# Class definitions
+classes:
+  0: background    # Background
+  1: wall          # Wall
+  2: room          # Room area
+  3: door_area     # Door area
+  4: window_area   # Window area
+
+num_classes: 5
+
+# Model configuration
+model:
+  name: unet  # Options: unet, deeplabv3plus, fpn
+  encoder: resnet34  # Options: resnet34, resnet50, efficientnet-b0
+  encoder_weights: imagenet
+  activation: sigmoid
+
+# Training parameters
+training:
+  epochs: 100
+  batch_size: 8
+  learning_rate: 0.0001
+  optimizer: Adam
+  loss: dice  # Options: dice, ce, focal
+  early_stopping: 10
+  
+# Data augmentation
+augmentation:
+  horizontal_flip: 0.5
+  vertical_flip: 0.0
+  rotate: 15
+  brightness: 0.2
+  contrast: 0.2
+  
+# Post-processing
+postprocess:
+  min_area: 100  # Minimum room area (pixels)
+  morphology: true  # Morphological operations
+

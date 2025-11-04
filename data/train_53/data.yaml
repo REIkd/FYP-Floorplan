@@ -1,0 +1,26 @@
+# —µ¡∑≈‰÷√
+path: E:\Project\FYP-Floorplan\data\train_53
+train: images/train
+val: images/val
+
+names:
+  0: door
+  1: window
+  2: table
+  3: chair
+  4: bed
+  5: sofa
+  6: toilet
+  7: sink
+  8: bathtub
+  9: stove
+  10: refrigerator
+  11: wardrobe
+  12: tv
+  13: desk
+  14: washingmachine
+  15: loadbearing_wall
+  16: aircondition
+  17: cupboard
+
+nc: 18
