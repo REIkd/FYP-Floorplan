@@ -96,7 +96,7 @@ LabelImg 会自动从以下位置查找预定义类别文件：
 python scripts/extract_original_images.py
 
 # 2. 使用 LabelImg 标注原始图片
-labelImg data/images_original data/labels_detection data/labels_detection/predefined_classes.txt
+labelImg data/images_original data/labels_detection/predefined_classes.txt data/labels_detection
 
 # 3. 在 LabelImg 中：
 #    - 按 W 创建标注框

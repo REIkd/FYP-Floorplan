@@ -186,7 +186,7 @@ def evaluate_on_val(model_path, data_yaml):
 
 def main():
     parser = argparse.ArgumentParser(description='Test object detection model')
-    parser.add_argument('--model', type=str, default='runs/detect/train/weights/best.pt',
+    parser.add_argument('--model', type=str, default='runs/detect/train_90/weights/best.pt',
                         help='Model path')
     parser.add_argument('--image', type=str,
                         help='Single image path')
@@ -194,7 +194,7 @@ def main():
                         help='Image directory (batch test)')
     parser.add_argument('--eval', action='store_true',
                         help='Evaluate on validation set')
-    parser.add_argument('--data', type=str, default='data/train_53/data.yaml',
+    parser.add_argument('--data', type=str, default='data/train_90/data.yaml',
                         help='Data configuration file')
     parser.add_argument('--conf', type=float, default=0.25,
                         help='Confidence threshold')
