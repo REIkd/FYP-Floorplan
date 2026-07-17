@@ -1,0 +1,23 @@
+[
+  {
+    "architecture": "yolov8n",
+    "mAP50": 0.92279,
+    "mAP50_95": 0.73196,
+    "precision": 0.92938,
+    "recall": 0.87479,
+    "training_time_s": 4890.81
+  },
+  {
+    "architecture": "fasterrcnn",
+    "train_loss": 0.3916895779279562,
+    "training_time_s": 13413.084187746048,
+    "train_size": 206,
+    "val_size": 52,
+    "note": "Use YOLO val metrics for mAP comparison after export; Faster R-CNN mAP evaluated via separate COCO eval if needed.",
+    "epochs": 30,
+    "mAP50": 0.8719334602355957,
+    "precision": 0.6756509821836455,
+    "recall": 0.6568557620048523,
+    "mAP50_95": 0.5951136946678162
+  }
+]

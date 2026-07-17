@@ -110,6 +110,81 @@ python analyze_room.py --image path/to/floorplan.jpg --scale 1:100
 python floorplan_agent.py --image path/to/floorplan.jpg --scale 1:100
 ```
 
+## 大模型 (LLM) 与知识库集成 (Ollama + RAG)
+
+为提升 Agent 的智能交互能力和对平面图设计规范的理解，系统集成了基于 Ollama 的本地大语言模型与向量数据库（Vector Database），实现检索增强生成（RAG）和模型训练微调。
+
+### 1. Ollama API 集成与使用
+Ollama 允许在本地轻量化运行开源大语言模型（如 Qwen, Llama 3 等），既能保证图纸数据的隐私安全，又能提供强大的自然语言理解能力。
+
+**安装与运行模型**:
+```bash
+# 启动本地 Ollama 服务并运行模型 (例如 qwen2.5)
+ollama run qwen2.5:7b
+```
+
+**Python 中调用 Ollama API**:
+使用官方 `ollama` 库与本地服务进行交互：
+```python
+import ollama
+
+# 传入平面图分析结果供模型解读
+prompt = "基于以下检测数据生成一份户型评估报告：房间总面积 85平米，门3个，窗户4个，卧室面积仅7平米..."
+response = ollama.chat(model='qwen2.5:7b', messages=[
+  {'role': 'system', 'content': '你是一个专业的室内设计师和架构分析师。'},
+  {'role': 'user', 'content': prompt}
+])
+print(response['message']['content'])
+```
+
+### 2. 数据库存储与 RAG (检索增强生成)
+为了让 LLM 具备专业的建筑知识（如《住宅设计规范》、优秀户型设计案例），我们使用向量数据库来存储这些知识，并在用户提问时进行检索匹配，从而辅助 LLM 生成更专业、准确的建议。
+
+**技术栈推荐**:
+- **向量数据库**：ChromaDB (推荐本地轻量化使用), Qdrant 或 Milvus
+- **框架**：LangChain 或 LlamaIndex
+
+**实现流程**:
+1. **数据准备与存储**：
+   将建筑规范文档转化为文本块，使用 Embedding 模型（如 `nomic-embed-text`）转化为向量并存入数据库。
+   ```python
+   import chromadb
+
+   # 初始化本地向量数据库
+   chroma_client = chromadb.PersistentClient(path="./rag_db")
+   collection = chroma_client.get_or_create_collection(name="architecture_rules")
+   
+   # 将建筑规范存入数据库
+   documents = ["双人卧室面积不应小于 9 平方米，单人卧室不应小于 5 平方米。", "卫生间应配备通风口。"]
+   collection.add(
+       documents=documents,
+       ids=["rule_1", "rule_2"]
+   )
+   ```
+
+2. **检索与问答 (RAG)**：
+   当用户或系统询问平面图设计的合理性时，先从数据库中检索相关的规范条文，然后将其作为上下文喂给 Ollama。
+   ```python
+   # 分析过程中的提问
+   query = "这个平面图中有一个只有7平米的双人卧室，是否符合规范？"
+   
+   # 检索最相关的规范
+   results = collection.query(query_texts=[query], n_results=1)
+   context = results['documents'][0][0]  # 提取相关上下文
+   
+   # 结合上下文请求 Ollama
+   rag_prompt = f"参考规范：{context}\n请基于规范回答：{query}"
+   response = ollama.generate(model='qwen2.5:7b', prompt=rag_prompt)
+   print(response['response'])
+   ```
+
+### 3. 本地数据存储与模型微调 (Fine-Tuning)
+如果基础模型的表现仍有不足，可以利用常规关系型数据库（如 SQLite/PostgreSQL）长期收集数据进行 LLM 微调：
+1. **数据收集**：在数据库中记录系统的**平面图结构化输出**（如房间面积数组、家具列表）以及人工修改/确认后的**优质评估报告**。
+2. **构建数据集**：将积累的数据导出为 `JSONL` 格式的指令微调数据集（Instruction Tuning Dataset）。
+3. **模型训练**：使用 LLaMA-Factory 或 Unsloth 等微调框架，对 Ollama 本地的模型进行 LoRA 微调。
+4. **模型部署**：将微调后导出的 GGUF 模型文件重新导入进 Ollama 供项目使用，使其成为专属于户型分析的垂类大模型。
+
 ## 项目结构
 ```
 FYP-Floorplan/

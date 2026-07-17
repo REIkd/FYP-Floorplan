@@ -1,0 +1,92 @@
+{
+  "seed": 42,
+  "train_ratio": 0.8,
+  "val_ratio": 0.1,
+  "reference_door_cm": 90,
+  "notes": "ground_truth_m2 = room-total area from MANUAL SEGMENTATION MASK under the same ref_pixels/ref_length_cm (internal reference). NOT blueprint. Absolute m² in the web app depend on user scale calibration.",
+  "test_plan_ids": [
+    4,
+    14,
+    15,
+    18,
+    29,
+    32,
+    36,
+    76,
+    88
+  ],
+  "plans": [
+    {
+      "plan_id": 4,
+      "image": "E:\\Project\\FYP-Floorplan\\data\\images_original\\FloorPlan-4-_JPG.rf.0d8f9df7c5a4bfb833d358ec0b2891e7.jpg",
+      "ground_truth_m2": 273.19,
+      "ref_pixels": 25.52,
+      "ref_length_cm": 90,
+      "notes": "GT total from annotated segmentation mask (same door calibration)."
+    },
+    {
+      "plan_id": 14,
+      "image": "E:\\Project\\FYP-Floorplan\\data\\images_original\\FloorPlan-14-_jpg.rf.55f340acdab41f907a9a7583b9b78fca.jpg",
+      "ground_truth_m2": 193.68,
+      "ref_pixels": 28.44,
+      "ref_length_cm": 90,
+      "notes": "GT total from annotated segmentation mask (same door calibration)."
+    },
+    {
+      "plan_id": 15,
+      "image": "E:\\Project\\FYP-Floorplan\\data\\images_original\\FloorPlan-15-_jpg.rf.1174db46509d66895c756c889bfea861.jpg",
+      "ground_truth_m2": 86.1,
+      "ref_pixels": 42.18,
+      "ref_length_cm": 90,
+      "notes": "Optional user-calibrated reference total for case study (Figure 6); not independent blueprint verification unless updated manually."
+    },
+    {
+      "plan_id": 18,
+      "image": "E:\\Project\\FYP-Floorplan\\data\\images_original\\FloorPlan-18-_jpg.rf.104b230a956ed4c04c23a47eff804edf.jpg",
+      "ground_truth_m2": 91.89,
+      "ref_pixels": 41.73,
+      "ref_length_cm": 90,
+      "notes": "GT total from annotated segmentation mask (same door calibration)."
+    },
+    {
+      "plan_id": 29,
+      "image": "E:\\Project\\FYP-Floorplan\\data\\images_original\\FloorPlan-29-_jpg.rf.322d44d2242652b7d5893ee8116e0648.jpg",
+      "ground_truth_m2": null,
+      "ref_pixels": null,
+      "ref_length_cm": 90,
+      "notes": ""
+    },
+    {
+      "plan_id": 32,
+      "image": "E:\\Project\\FYP-Floorplan\\data\\images_original\\FloorPlan-32-_jpg.rf.235710dd5a2fc470d6147dc38f691cc2.jpg",
+      "ground_truth_m2": null,
+      "ref_pixels": null,
+      "ref_length_cm": 90,
+      "notes": ""
+    },
+    {
+      "plan_id": 36,
+      "image": "E:\\Project\\FYP-Floorplan\\data\\images_original\\FloorPlan-36-_jpg.rf.0bd5ad58d2cfc52dcbafb3dc7eca1b97.jpg",
+      "ground_truth_m2": null,
+      "ref_pixels": null,
+      "ref_length_cm": 90,
+      "notes": ""
+    },
+    {
+      "plan_id": 76,
+      "image": "E:\\Project\\FYP-Floorplan\\data\\images_original\\FloorPlan-76-_jpg.rf.6df2694f37bfb6c8de668d4138c64ead.jpg",
+      "ground_truth_m2": null,
+      "ref_pixels": null,
+      "ref_length_cm": 90,
+      "notes": ""
+    },
+    {
+      "plan_id": 88,
+      "image": "E:\\Project\\FYP-Floorplan\\data\\images_original\\FloorPlan-88-_jpg.rf.1381a5fe63ad3d4f45bc3e676f3e26cc.jpg",
+      "ground_truth_m2": null,
+      "ref_pixels": null,
+      "ref_length_cm": 90,
+      "notes": ""
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "summary": {
+    "n_test_plans_configured": 9,
+    "n_evaluated": 4,
+    "mean_total_mape_pct": 0.28,
+    "std_total_mape_pct": 0.23,
+    "min_total_mape_pct": 0.0,
+    "max_total_mape_pct": 0.64,
+    "mean_room_mape_pct": 0.49,
+    "std_room_mape_pct": 0.07,
+    "reference_door_cm": 90.0
+  },
+  "per_plan": [
+    {
+      "plan_id": 4,
+      "status": "ok",
+      "image": "E:\\Project\\FYP-Floorplan\\data\\images_original\\FloorPlan-4-_JPG.rf.0d8f9df7c5a4bfb833d358ec0b2891e7.jpg",
+      "ref_pixels": 25.52,
+      "ref_length_cm": 90.0,
+      "ground_truth_m2": 273.19,
+      "predicted_total_m2": 273.91,
+      "total_mape_pct": 0.26,
+      "num_pred_rooms": 7,
+      "room_mape_pct": 0.4,
+      "gt_mask_total_m2": 273.23,
+      "pred_rooms_m2": [
+        122.28,
+        35.42,
+        35.4,
+        33.78,
+        21.32,
+        13.25,
+        12.46
+      ]
+    },
+    {
+      "plan_id": 14,
+      "status": "ok",
+      "image": "E:\\Project\\FYP-Floorplan\\data\\images_original\\FloorPlan-14-_jpg.rf.55f340acdab41f907a9a7583b9b78fca.jpg",
+      "ref_pixels": 28.44,
+      "ref_length_cm": 90.0,
+      "ground_truth_m2": 193.68,
+      "predicted_total_m2": 193.24,
+      "total_mape_pct": 0.23,
+      "num_pred_rooms": 8,
+      "room_mape_pct": 0.43,
+      "gt_mask_total_m2": 193.71,
+      "pred_rooms_m2": [
+        75.1,
+        30.94,
+        21.21,
+        16.43,
+        15.36,
+        13.89,
+        10.55,
+        9.76
+      ]
+    },
+    {
+      "plan_id": 15,
+      "status": "ok",
+      "image": "E:\\Project\\FYP-Floorplan\\data\\images_original\\FloorPlan-15-_jpg.rf.1174db46509d66895c756c889bfea861.jpg",
+      "ref_pixels": 42.18,
+      "ref_length_cm": 90.0,
+      "ground_truth_m2": 86.1,
+      "predicted_total_m2": 85.55,
+      "total_mape_pct": 0.64,
+      "num_pred_rooms": 8,
+      "room_mape_pct": 0.56,
+      "gt_mask_total_m2": 85.9,
+      "pred_rooms_m2": [
+        32.57,
+        13.72,
+        10.2,
+        7.36,
+        6.67,
+        6.45,
+        4.56,
+        4.03
+      ]
+    },
+    {
+      "plan_id": 18,
+      "status": "ok",
+      "image": "E:\\Project\\FYP-Floorplan\\data\\images_original\\FloorPlan-18-_jpg.rf.104b230a956ed4c04c23a47eff804edf.jpg",
+      "ref_pixels": 41.73,
+      "ref_length_cm": 90.0,
+      "ground_truth_m2": 91.89,
+      "predicted_total_m2": 91.89,
+      "total_mape_pct": 0.0,
+      "num_pred_rooms": 8,
+      "room_mape_pct": 0.55,
+      "gt_mask_total_m2": 91.87,
+      "pred_rooms_m2": [
+        33.27,
+        17.65,
+        10.78,
+        8.59,
+        6.39,
+        6.38,
+        4.73,
+        4.1
+      ]
+    },
+    {
+      "plan_id": 29,
+      "status": "skipped_no_ground_truth"
+    },
+    {
+      "plan_id": 32,
+      "status": "skipped_no_ground_truth"
+    },
+    {
+      "plan_id": 36,
+      "status": "skipped_no_ground_truth"
+    },
+    {
+      "plan_id": 76,
+      "status": "skipped_no_ground_truth"
+    },
+    {
+      "plan_id": 88,
+      "status": "skipped_no_ground_truth"
+    }
+  ]
+}

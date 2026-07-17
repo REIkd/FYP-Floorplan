@@ -76,6 +76,63 @@ class OllamaAssistant:
         except:
             return False
     
+    def list_installed_models(self):
+        try:
+            response = requests.get(f"{self.base_url}/api/tags", timeout=2)
+            if response.status_code != 200:
+                return []
+            return [m.get("name", "").split(":")[0] for m in response.json().get("models", [])]
+        except:
+            return []
+    
+    def resolve_model(self):
+        """Match short name (e.g. gemma3) to installed tag (e.g. gemma3:latest)."""
+        try:
+            response = requests.get(f"{self.base_url}/api/tags", timeout=2)
+            if response.status_code != 200:
+                return self.model
+            for entry in response.json().get("models", []):
+                name = entry.get("name", "")
+                if name == self.model or name.startswith(f"{self.model}:"):
+                    return name
+            return self.model
+        except:
+            return self.model
+    
+    def _format_error(self, response):
+        try:
+            detail = response.json().get("error", "")
+        except Exception:
+            detail = response.text[:300] if response.text else ""
+        
+        if response.status_code == 404:
+            return (
+                f"Model `{self.model}` not found (404).\n\n"
+                f"Run in terminal: `ollama pull {self.model}`"
+            )
+        
+        gpu_crash_markers = (
+            "device kernel image is invalid",
+            "CUDA error",
+            "0xc0000409",
+            "stack-based buffer",
+            "llama-server process has terminated",
+        )
+        if any(m.lower() in detail.lower() for m in gpu_crash_markers):
+            return (
+                "Ollama GPU/CUDA error — llama-server crashed (often GPU driver mismatch).\n\n"
+                "**Fix (pick one):**\n"
+                "1. **CPU mode (quick):** quit Ollama from the system tray, then run "
+                "`start_ollama_cpu.bat` in the project folder and refresh this page.\n"
+                "2. **Update GPU driver:** install the latest NVIDIA driver from nvidia.com.\n"
+                "3. **Try another model:** `ollama pull llama3.2` then select it above.\n\n"
+                f"Details: {detail[:200]}"
+            )
+        
+        if detail:
+            return f"Ollama error ({response.status_code}): {detail[:400]}"
+        return f"Ollama error: HTTP {response.status_code}"
+    
     def create_context(self, results):
         rooms = results.get('rooms', [])
         furniture = results.get('furniture', [])
@@ -107,10 +164,11 @@ Details:
             
             self.chat_history.append({"role": "user", "content": message})
             
+            model = self.resolve_model()
             response = requests.post(
                 f"{self.base_url}/api/chat",
-                json={"model": self.model, "messages": self.chat_history, "stream": False},
-                timeout=30
+                json={"model": model, "messages": self.chat_history, "stream": False},
+                timeout=120
             )
             
             if response.status_code == 200:
@@ -119,7 +177,8 @@ Details:
                 self.chat_history.append({"role": "assistant", "content": answer})
                 return answer
             else:
-                return f"Error: {response.status_code}"
+                self.chat_history.pop()
+                return self._format_error(response)
         except requests.exceptions.Timeout:
             return "Timeout. Please try again."
         except requests.exceptions.ConnectionError:
@@ -397,21 +456,28 @@ def main():
             st.header("🤖 AI Assistant")
             st.caption("Powered by Ollama")
             
-            # Model selector
-            model_name = st.selectbox(
-                "Select Model:",
-                ["gemma3", "llama3.2", "llama3.1", "mistral", "qwen2.5"],
-                help="Choose an Ollama model (must be downloaded first)"
-            )
-            
-            # Initialize assistant
+            # Initialize assistant first (before reading installed models)
             if 'ollama_assistant' not in st.session_state:
-                st.session_state.ollama_assistant = OllamaAssistant(model=model_name)
-            else:
-                st.session_state.ollama_assistant.model = model_name
+                st.session_state.ollama_assistant = OllamaAssistant()
             
             if 'ai_chat' not in st.session_state:
                 st.session_state.ai_chat = []
+            
+            # Model selector — prefer installed models; fall back to common names
+            installed = st.session_state.ollama_assistant.list_installed_models()
+            model_options = installed if installed else ["gemma3", "llama3.2", "llama3.1", "mistral", "qwen2.5"]
+            default_idx = 0
+            if 'gemma3' in model_options:
+                default_idx = model_options.index('gemma3')
+            elif st.session_state.ollama_assistant.model in model_options:
+                default_idx = model_options.index(st.session_state.ollama_assistant.model)
+            model_name = st.selectbox(
+                "Select Model:",
+                model_options,
+                index=default_idx,
+                help="Only models you have pulled with `ollama pull` appear here"
+            )
+            st.session_state.ollama_assistant.model = model_name
             
             # Check status
             ollama_status = st.session_state.ollama_assistant.check_status()

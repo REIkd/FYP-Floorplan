@@ -1,0 +1,10 @@
+plan_id,status,ground_truth_m2,predicted_total_m2,total_mape_pct,room_mape_pct,ref_pixels
+4,ok,273.19,273.91,0.26,0.4,25.52
+14,ok,193.68,193.24,0.23,0.43,28.44
+15,ok,86.1,85.55,0.64,0.56,42.18
+18,ok,91.89,91.89,0.0,0.55,41.73
+29,skipped_no_ground_truth,,,,,
+32,skipped_no_ground_truth,,,,,
+36,skipped_no_ground_truth,,,,,
+76,skipped_no_ground_truth,,,,,
+88,skipped_no_ground_truth,,,,,

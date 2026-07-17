@@ -29,6 +29,10 @@ tqdm>=4.65.0
 pyyaml>=6.0.0
 tensorboard>=2.13.0
 
+# Web Interface
+streamlit>=1.28.0
+plotly>=5.18.0
+
 # API (optional for web interface)
 fastapi>=0.100.0
 uvicorn>=0.23.0
