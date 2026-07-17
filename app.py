@@ -358,7 +358,7 @@ def load_analyzer():
     """Load analyzer with caching"""
     try:
         analyzer = FloorPlanAnalyzer(
-            detection_model_path='runs/detect/train_90/weights/best.pt',
+            detection_model_path='models/detection/yolov8_best.pt',
             segmentation_model_path='models/segmentation/best_model.pth'
         )
         return analyzer

@@ -20,32 +20,36 @@ wheels/
 .installed.cfg
 *.egg
 
-# 虚拟环境
+# Virtual environments
 venv/
 env/
 ENV/
 .venv
 
-# Jupyter Notebook
+# Jupyter
 .ipynb_checkpoints
 *.ipynb_checkpoints
 
-# 模型文件
-*.pth
-*.pt
-*.onnx
-*.h5
-*.pkl
-models/weights/
+# Dataset (large; do not push)
+data/
+
+# YOLO training runs (regeneratable; duplicate weights)
 runs/
-results/
 
-# 数据文件 (根据需要调整)
-# data/images/  # 如果数据太大不想上传
-data/labels_detection/
-data/labels_segmentation/
+# Baseline experiment checkpoints (reproduce via scripts/; Faster R-CNN >100 MB)
+models/baseline_comparison/
 
-# 日志
+# Dev / scratch segmentation checkpoint (not used by the web app)
+models/segmentation/quick_test_model.pth
+
+# YOLO pretrained nano weights (Ultralytics auto-downloads on first train)
+yolov8n.pt
+
+# Large local PDFs / reports (optional; keep repo lean)
+*.pdf
+FYP Final Report Template*.docx
+
+# Logs & tensorboard
 logs/
 *.log
 tensorboard/
@@ -61,13 +65,14 @@ tensorboard/
 .DS_Store
 Thumbs.db
 
-# 临时文件
+# Temporary / scratch outputs
 temp/
 tmp/
 *.tmp
-
-# 输出结果
 output/
 predictions/
 visualizations/
 
+# Optional local caches
+rag_db/
+.chroma/

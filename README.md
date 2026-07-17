@@ -50,16 +50,20 @@ setup_venv.bat
 
 This creates `venv/` and installs dependencies from `requirements.txt`.
 
-### 2. Place trained weights
+### 2. Trained weights (included in repo)
 
-The app expects:
+| Model | Path | Size |
+|-------|------|------|
+| YOLOv8 detection | `models/detection/yolov8_best.pt` | ~6 MB |
+| U-Net segmentation | `models/segmentation/best_model.pth` | ~93 MB |
 
-| Model | Default path |
-|-------|----------------|
-| YOLOv8 detection | `runs/detect/train_90/weights/best.pt` |
-| U-Net segmentation | `models/segmentation/best_model.pth` |
+Baseline checkpoints (Faster R-CNN, DeepLabv3+) are **not** on GitHub — see [`models/README.md`](models/README.md). Regenerate with the scripts in [Experiments](#experiments--evaluation).
 
-Train your own (see [Training](#training)) or copy checkpoints into these paths.
+After retraining detection, copy the new weights:
+
+```powershell
+copy runs\detect\train_90\weights\best.pt models\detection\yolov8_best.pt
+```
 
 ### 3. Start the web application
 
